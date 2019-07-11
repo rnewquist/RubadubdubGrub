@@ -51,7 +51,6 @@ class _SlidingCardsViewState extends State<SlidingCardsView> {
         ),
         SlidingCard(
           name: 'Fish Tacos',
-          date: '4.28-31',
           assetName: 'https://images.media-allrecipes.com/userphotos/720x405/4557502.jpg',
           offset: pageOffset - 3,
         ),
@@ -76,83 +75,79 @@ class SlidingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double gauss = math.exp(-(math.pow((offset.abs() - 0.5), 2) / 0.08));
-    return Transform.translate(
-      offset: Offset(-32 * gauss * offset.sign, 0),
-      child: Card(
-        margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
-        elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        child: Stack(
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ShaderMask(
-                      shaderCallback: (rect) {
-                        return LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.black, Colors.transparent],
-                        ).createShader(Rect.fromLTRB(0, rect.height/1.75, rect.width, rect.height));
-                      },
-                      blendMode: BlendMode.dstIn,
-                      child: AspectRatio(
-                        aspectRatio: 10/9,
-                        child: Image.network(
-                          '$assetName',
-                          alignment: Alignment(-offset.abs(), 0),
-                          fit: BoxFit.fitHeight,
-                        ),
+    return Card(
+      margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+      child: Stack(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: ShaderMask(
+                    shaderCallback: (rect) {
+                      return LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.black, Colors.transparent],
+                      ).createShader(Rect.fromLTRB(0, rect.height/1.75, rect.width, rect.height));
+                    },
+                    blendMode: BlendMode.dstIn,
+                    child: AspectRatio(
+                      aspectRatio: 10/9,
+                      child: Image.network(
+                        '$assetName',
+                        alignment: Alignment(-offset.abs(), 0),
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Positioned(
-              bottom: 0.0,
-              child: Container(
-                padding: EdgeInsets.only(bottom: 16, left: 16, right: 96),
-                alignment: FractionalOffset.bottomLeft,
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height/7,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              "$name",
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                              ),
+          ),
+          Positioned(
+            bottom: 0.0,
+            child: Container(
+              padding: EdgeInsets.only(bottom: 16, left: 16, right: 96),
+              alignment: FractionalOffset.bottomLeft,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height/7,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            "$name",
+                            maxLines: 2,
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Icon(Icons.access_time),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text("Cook Time: "),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.access_time),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text("Cook Time: "),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

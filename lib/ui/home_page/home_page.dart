@@ -21,12 +21,12 @@ class _HomePageState extends State<HomePage>{
         title: Text(""),
       ),
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           RecipePage(),
           ProfilePage(),
         ],
         controller: _pageController,
-        physics: BouncingScrollPhysics(),
         onPageChanged: onPageChanged,
       ),
       floatingActionButton: FloatingActionButton(
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage>{
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         child: Ink(
-          height: 50.0,
+          height: 56.0,
           padding: EdgeInsets.symmetric(horizontal: 64),
           child: Row(
             mainAxisSize: MainAxisSize.max,
