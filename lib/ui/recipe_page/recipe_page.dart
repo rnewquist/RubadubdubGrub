@@ -9,27 +9,25 @@ class RecipePage extends StatefulWidget{
 class _RecipePageState extends State<RecipePage>{
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        child: ListView(
-            children: <Widget>[
-              SizedBox(
-                child: SlidingCardsView(),
-                height: 400,
-              ),
-              SizedBox(
-                child: SlidingCardsView(),
-                height: 400,
-              ),
-              SizedBox(
-                child: SlidingCardsView(),
-                height: 400,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-            ],
-        ),
+    return Container(
+      child: ListView(
+          children: <Widget>[
+            SizedBox(
+              child: SlidingCardsView(),
+              height: 400,
+            ),
+            SizedBox(
+              child: SlidingCardsView(),
+              height: 400,
+            ),
+            SizedBox(
+              child: SlidingCardsView(),
+              height: 400,
+            ),
+            SizedBox(
+              height: 16,
+            ),
+          ],
       ),
     );
   }

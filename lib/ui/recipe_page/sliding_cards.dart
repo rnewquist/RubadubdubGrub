@@ -83,98 +83,76 @@ class SlidingCard extends StatelessWidget {
         margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        child: Column(
+        child: Stack(
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: AspectRatio(
-                      aspectRatio: 3 / 2,
-                      child: Image.network(
-                        '$assetName',
-                        alignment: Alignment(-offset.abs(), 0),
-                        fit: BoxFit.fitHeight,
+                    child: ShaderMask(
+                      shaderCallback: (rect) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(Rect.fromLTRB(0, rect.height/1.75, rect.width, rect.height));
+                      },
+                      blendMode: BlendMode.dstIn,
+                      child: AspectRatio(
+                        aspectRatio: 10/9,
+                        child: Image.network(
+                          '$assetName',
+                          alignment: Alignment(-offset.abs(), 0),
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 8),
-            Expanded(
-              child: CardContent(
-                name: name,
-                date: date,
-                offset: gauss,
+            Positioned(
+              bottom: 0.0,
+              child: Container(
+                padding: EdgeInsets.only(bottom: 16, left: 16, right: 96),
+                alignment: FractionalOffset.bottomLeft,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height/7,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "$name",
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.access_time),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text("Cook Time: "),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CardContent extends StatelessWidget {
-  final String name;
-  final String date;
-  final double offset;
-
-  const CardContent(
-      {Key key,
-      @required this.name,
-      @required this.date,
-      @required this.offset})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(name, style: TextStyle(fontSize: 20)),
-          SizedBox(height: 8),
-          Text(
-            date,
-            style: TextStyle(color: Colors.grey),
-          ),
-          Spacer(),
-          Row(
-            children: <Widget>[
-              Transform.translate(
-                offset: Offset(48 * offset, 0),
-                child: RaisedButton(
-                  color: Color(0xFF162A49),
-                  child: Transform.translate(
-                    offset: Offset(24 * offset, 0),
-                    child: Text('Reserve'),
-                  ),
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-              Spacer(),
-              Transform.translate(
-                offset: Offset(32 * offset, 0),
-                child: Text(
-                  '0.00 \$',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              SizedBox(width: 16),
-            ],
-          )
-        ],
       ),
     );
   }
