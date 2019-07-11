@@ -17,14 +17,6 @@ class _RecipePageState extends State<RecipePage>{
               height: 400,
             ),
             SizedBox(
-              child: SlidingCardsView(),
-              height: 400,
-            ),
-            SizedBox(
-              child: SlidingCardsView(),
-              height: 400,
-            ),
-            SizedBox(
               height: 16,
             ),
           ],
