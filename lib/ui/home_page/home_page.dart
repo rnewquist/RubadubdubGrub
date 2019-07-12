@@ -17,9 +17,6 @@ class _HomePageState extends State<HomePage>{
     // TODO: implement build
     return Scaffold(
       extendBody: true,
-      appBar: AppBar(
-        title: Text(""),
-      ),
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[

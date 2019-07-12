@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:rubadubdubgrub/data/recipe_data.dart';
 import 'dart:math' as math;
 
 import 'package:rubadubdubgrub/ui/recipe_info_page/recipe_info_page.dart';
 
 class SlidingCardsView extends StatefulWidget {
+  SlidingCardsView({Key key, @required this.info}): super(key: key);
+  final List<RecipeInfo> info;
   @override
   _SlidingCardsViewState createState() => _SlidingCardsViewState();
 }
@@ -33,40 +36,19 @@ class _SlidingCardsViewState extends State<SlidingCardsView> {
     return PageView(
       controller: pageController,
       children: <Widget>[
-        SlidingCard(
-          name: 'Cajun Chicken and Sausage Gumbo',
-          assetName: 'https://images.media-allrecipes.com/userphotos/720x405/1088072.jpg',
-          offset: pageOffset,
-        ),
-        SlidingCard(
-          name: 'Dessert Crepes',
-          assetName: 'https://images.media-allrecipes.com/userphotos/720x405/4511555.jpg',
-          offset: pageOffset - 1,
-        ),
-        SlidingCard(
-          name: 'Unbelievably Awesome Barbeque Chicken Pizza',
-          assetName: 'https://images.media-allrecipes.com/userphotos/720x405/2585431.jpg',
-          offset: pageOffset - 2,
-        ),
-        SlidingCard(
-          name: 'Fish Tacos',
-          assetName: 'https://images.media-allrecipes.com/userphotos/720x405/4557502.jpg',
-          offset: pageOffset - 3,
-        ),
+        for (var i = 0; i < widget.info.length; i++) SlidingCard(info: widget.info[i], offset: pageOffset - i),
       ],
     );
   }
 }
 
 class SlidingCard extends StatelessWidget {
-  final String name;
-  final String assetName;
+  final RecipeInfo info;
   final double offset;
 
   const SlidingCard({
     Key key,
-    @required this.name,
-    @required this.assetName,
+    @required this.info,
     @required this.offset,
   }) : super(key: key);
 
@@ -74,7 +56,7 @@ class SlidingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeInfoPage(imageUrl: assetName, name: name,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeInfoPage(info: info)));
       },
       child: Card(
         margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
@@ -101,9 +83,9 @@ class SlidingCard extends StatelessWidget {
                       child: AspectRatio(
                         aspectRatio: 10/9,
                         child: Hero(
-                          tag: "hero_$assetName",
+                          tag: "hero_${info.imageURL}",
                           child: Image.network(
-                            '$assetName',
+                            '${info.imageURL}',
                             alignment: Alignment(-offset.abs(), 0),
                             fit: BoxFit.fitHeight,
                           ),
@@ -128,25 +110,38 @@ class SlidingCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text(
-                              "$name",
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
+                            child: Hero(
+                              tag: "text_${info.name}",
+                              child: Material(
+                                color: Colors.transparent,
+                                child: Text(
+                                  "${info.name}",
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
-                      Row(
-                        children: <Widget>[
-                          Icon(Icons.access_time),
-                          SizedBox(
-                            width: 8,
+                      Hero(
+                        tag: "cooktime_${info.name}",
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.access_time),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text("Cook Time: "),
+                              Text(info.cooktime),
+                            ],
                           ),
-                          Text("Cook Time: "),
-                        ],
+                        ),
                       ),
                     ],
                   ),
