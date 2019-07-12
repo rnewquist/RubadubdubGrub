@@ -10,6 +10,7 @@ class _ProfilePageState extends State<ProfilePage>{
   Widget build(BuildContext context) {
 
     return SafeArea(
+      bottom: false,
       child: Container(
         padding: EdgeInsets.only(top: 8),
         child: Column(
